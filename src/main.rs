@@ -1,3 +1,8 @@
+use std::fs;
+
 fn main() {
-    println!("Hello, world!");
+    let paths = fs::read_dir("./").unwrap();
+    for path in paths {
+        println!("Name: {}", path.unwrap().path().display())
+    }
 }
