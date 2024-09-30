@@ -2,11 +2,22 @@ use std::{fs, io};
 use std::io::Write;
 use std::path::PathBuf;
 use colored::Colorize;
+use clap::Parser;
+
+#[derive(Parser, Debug)]
+#[command(version, about, long_about = None)]
+struct Args {
+    //Print hidden files
+    #[arg(short, long, default_value_t = false)]
+    all: bool
+}
 
 fn main() {
     let paths = fs::read_dir("./").unwrap();
     let mut file_vec = Vec::new();
     let mut directory_vec = Vec::new();
+    let args = Args::parse();
+    println!("{}", args.all);
 
     for path in paths {
         let path_string = path.unwrap().path().display().to_string();
@@ -20,13 +31,13 @@ fn main() {
             }
         }
     }
-    print_vec(&file_vec, false);
-    print_vec(&directory_vec, true);
+    print_vec(file_vec, false);
+    print_vec(directory_vec, true);
     print!("\n");
     io::stdout().flush().unwrap();
 }
 
-fn print_vec(contents: &Vec<String>, is_dir: bool) {
+fn print_vec(contents: Vec<String>, is_dir: bool) {
     for val in contents {
         match is_dir {
             true => print!("{}  ", val.bold().blue()),
