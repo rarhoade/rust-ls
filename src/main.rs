@@ -23,7 +23,7 @@ fn main() {
         let path_string = path.unwrap().path().display().to_string();
         let len = path_string.len();
         let modified_path_string: String = path_string[2..len].parse().unwrap();
-        if !modified_path_string.starts_with(".") {
+        if !modified_path_string.starts_with(".") | args.all{
             let path_buf = PathBuf::from(path_string);
             match path_buf.is_file() {
                 true => file_vec.push(modified_path_string),
@@ -40,7 +40,7 @@ fn main() {
 fn print_vec(contents: Vec<String>, is_dir: bool) {
     for val in contents {
         match is_dir {
-            true => print!("{}  ", val.bold().blue()),
+            true => print!("{}  ", val.bold().bright_blue()),
             false => print!("{}  ", val),
         }
     }
